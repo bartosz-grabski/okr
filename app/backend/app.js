@@ -1,7 +1,7 @@
 /**
 * backend/app.js
 *
-* This is the main file for Express and others backend's middlewares 
+* This is the main file for Express and others backend's middlewares
 * configuration.
 */
 'use strict';
@@ -23,19 +23,11 @@ var fs 				= require('fs');
 var config 			= JSON.parse(fs.readFileSync(path.join(__dirname, '../config.json'), 'utf8'));
 var strategiesDir 	= fs.readdirSync(path.join(__dirname, './lib/strategies'));
 var modelsDir		= fs.readdirSync(path.join(__dirname, './models'));
-var nodemailer 		= require('nodemailer');
-
 /**
 * Check environment configuration
 *
 */
 app.set('env', app.get('env') || 'production');
-
-/**
-* Configure mail service
-*
-*/
-var transporter = nodemailer.createTransport(config[app.get('env')].mail);
 
 /**
 * MongoDB connection.
@@ -59,7 +51,7 @@ modelsDir.forEach(function (file) {
 */
 strategiesDir.forEach(function (file) {
 	if (file.indexOf('.js') >-1) {
-		require('./lib/strategies/'+file)(app.get('env'), passport, transporter);
+		require('./lib/strategies/'+file)(app.get('env'), passport);
 	}
 });
 
@@ -80,18 +72,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 * Enable session middleware
 *
 */
-app.use(session({ 
-	name: 'sessionID', 
-	secret: config[app.get('env')].sessionSecret, 
+app.use(session({
+	name: 'sessionID',
+	secret: config[app.get('env')].sessionSecret,
 	cookie: {
 		path: '/',
 		httpOnly: true,
 		secure: false,
 		maxAge: 2*60*60*1000
 	},
-	rolling: true, 
-	resave: false, 
-	saveUninitialized: true 
+	rolling: true,
+	resave: false,
+	saveUninitialized: true
 }));
 
 /**
@@ -119,7 +111,7 @@ app.use(flash());
 app.use(csrf());
 
 /**
-* Create a token called 'XSRF-TOKEN' with value managed by csrf middleware. 
+* Create a token called 'XSRF-TOKEN' with value managed by csrf middleware.
 * Send the token in every request results
 *
 * More info here : http://stackoverflow.com/a/27426757/2904349

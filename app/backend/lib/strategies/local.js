@@ -7,15 +7,15 @@ var Remember		= mongoose.model('Remember');
 var path 			= require('path');
 
 
-module.exports = function (env, passport , transporter) {
+module.exports = function (env, passport) {
 	passport.serializeUser(function(user, done) {
 		done(null, user._id);
 	});
-	
+
 	passport.deserializeUser(function(id, done) {
 		User.findById(id, function(err, user) {
-			done(err, user);		
-		});	
+			done(err, user);
+		});
 	});
 
 	var newEndToken = function (cLogin, cId, callback) {
@@ -25,13 +25,13 @@ module.exports = function (env, passport , transporter) {
 		newEndToken.token = Math.random().toString(36).substr(2,10);
 		newEndToken.save(callback);
 	};
-	
+
 
 	passport.use('local-signup', new LocalStrategy({
 		usernameField : 'email',
 		passwordField : 'password',
 		passReqToCallback : true
-	}, 
+	},
 	function(req, email, password, done){
 		process.nextTick(function () {
 			User.findOne({ 'email' : email }, function (err, user) {
@@ -49,14 +49,9 @@ module.exports = function (env, passport , transporter) {
 					newUser.emailKey = validMailKey;
 					newUser.save(function (err) {
 						if (err) { throw err; }
-						
-						var mailOptions = require(path.join(__dirname, '../../templates/confirm-mail'))(email, req.body.fullname, validMailKey);
-						transporter.sendMail(mailOptions, function(error, info) {
-							if (error) { console.log(error); }
-							console.log(info.response);
-							return done(null, newUser);	
-						});
-									
+
+						return done(null, newUser);
+
 					});
 				}
 			});
@@ -68,7 +63,7 @@ module.exports = function (env, passport , transporter) {
 		passwordField : 'password',
 		passReqToCallback : true,
 		allowNoField : true
-	}, 
+	},
 	function (req, email, password, done) {
 		if (email && password) {
 			User.findOne({ 'email' : email }, function (err, user) {
@@ -119,26 +114,11 @@ module.exports = function (env, passport , transporter) {
 
 								}
 
-								
 
-								var mailOptions = require(path.join(__dirname, '../../templates/theft-mail'))(cookieLogin);
-
-								transporter.sendMail(mailOptions, function (err, info) {
-
-									if (err) {
-										console.log(err);
-									}
-
-									console.log(info.response);
-
-								});
-
-								
-								
 								return done(null, false, req.flash('signInMessage', 'theft tentative detected.'));
 
 							});
-							
+
 						}
 
 						else {
@@ -171,7 +151,7 @@ module.exports = function (env, passport , transporter) {
 						}
 
 					});
-			} 
+			}
 
 			else {
 

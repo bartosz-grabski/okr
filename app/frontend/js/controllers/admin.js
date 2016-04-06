@@ -8,7 +8,7 @@ angular.module('okrs')
 		$scope.tasks = [];
 
 		var read = function () {
-			$http.get('/task').success(function (tasks) {
+			$http.get('/objective').success(function (tasks) {
 				if (tasks === '0') {
 					$scope.tasks= [];
 					$scope.errorMessage ='There\'s no tasks in the database. Create one if you want !';
@@ -22,20 +22,9 @@ angular.module('okrs')
 		};
 
 		$scope.create = function () {
-			var prompt = $window.prompt('Create a new task :', 'Task Name');
+			var prompt = $window.prompt('Create a new objective :', 'Task Name');
 			if (prompt !== null ) {
-				$http.post('/task', {name: prompt}).success(function () {
-					read();
-				}).error(function (error, status) {
-					$scope.errorMessage = error + ' (code:' + status + ')';
-				});
-			}
-		};
-			
-		$scope.edit = function (taskId, taskName) {
-			var prompt = $window.prompt('New task name :', taskName);
-			if(prompt !== null) {
-				$http.put('/task/'+taskId, {name: prompt}).success(function () {
+				$http.post('/objective', {name: prompt}).success(function () {
 					read();
 				}).error(function (error, status) {
 					$scope.errorMessage = error + ' (code:' + status + ')';
@@ -43,8 +32,19 @@ angular.module('okrs')
 			}
 		};
 
-		$scope.delete = function (taskId) {
-			$http.delete('/task/'+taskId).success(function () {
+		$scope.edit = function (objectiveId, taskName) {
+			var prompt = $window.prompt('New task name :', taskName);
+			if(prompt !== null) {
+				$http.put('/objective/'+objectiveId, {name: prompt}).success(function () {
+					read();
+				}).error(function (error, status) {
+					$scope.errorMessage = error + ' (code:' + status + ')';
+				});
+			}
+		};
+
+		$scope.delete = function (objectiveId) {
+			$http.delete('/objective/'+objectiveId).success(function () {
 				read();
 			}).error(function (error, status) {
 				$scope.errorMessage = error + ' (code:' + status + ')';

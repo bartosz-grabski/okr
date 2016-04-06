@@ -36,12 +36,12 @@ module.exports = function (grunt) {
 		},
 
 		jshint: {
-			options: { 
-				jshintrc: '.jshintrc', 
-				reporter: require('jshint-stylish') 
+			options: {
+				jshintrc: '.jshintrc',
+				reporter: require('jshint-stylish')
 			},
 			all: [
-				'Gruntfile.js', 
+				'Gruntfile.js',
 				'<%= dirs.app %>/**/*.js'
 			]
 		},
@@ -80,8 +80,8 @@ module.exports = function (grunt) {
 		},
 
 		autoprefixer: {
-			options: { 
-				browsers: ['last 1 version'] 
+			options: {
+				browsers: ['last 1 version']
 			}
 		},
 
@@ -96,15 +96,15 @@ module.exports = function (grunt) {
 				files: [
 					{
 						expand: true,
-						dot: true, 
+						dot: true,
 						cwd: '<%= dirs.app %>/frontend',
 						src: ['*.{ico,png,txt}','*.html','views/*.html','fonts/*'],
 						dest: '<%= dirs.build %>/frontend'
 					},
 					{
-						expand: true, 
-						cwd: '.tmp/img', 
-						dest: '<%= dirs.build %>frontend/img', 
+						expand: true,
+						cwd: '.tmp/img',
+						dest: '<%= dirs.build %>frontend/img',
 						src: ['generated/*']
 					},
 					{
@@ -122,19 +122,19 @@ module.exports = function (grunt) {
 				]
 			}
 		},
-		
-		compass: { 
+
+		compass: {
 			app: {
-				options: { 
-					debugInfo: true 
+				options: {
+					debugInfo: true
 				}
-			}, 
+			},
 			build: {
-				options: { 
-					generatedImagesDir: '<%= dirs.build %>/frontend/img/generated' 
+				options: {
+					generatedImagesDir: '<%= dirs.build %>/frontend/img/generated'
 				}
-			}, 
-			options : { 
+			},
+			options : {
 				sassDir: '<%= dirs.app %>/frontend/css',
 				cssDir: './.tmp/css',
 				generatedImagesDir: './.tmp/img/generated',
@@ -151,52 +151,53 @@ module.exports = function (grunt) {
 			}
 		},
 
-		watch: { 
-			backend: { 
+		watch: {
+			backend: {
 				files: [
-					'<%= dirs.app %>/backend/{,*/}*.js',
+					'<%= dirs.app %>/backend/**/*.js',
 					'<%= dirs.app %>/server.js',
 					'<%= dirs.app %>/config.js'
-				], tasks: [
+				],
+        tasks: [
 					'newer:jshint:all', 'express:app'
-				], 
-				options: { 
-					spawn: false 
-				} 
+				],
+				options: {
+					spawn: false,
+				}
 			},
-			packages: { 
+			packages: {
 				files: [
-					'./bower.json', 
+					'./bower.json',
 					'./package.json'
 				], tasks: [
-					'wiredep', 
+					'wiredep',
 					'express:app'
-				] 
+				]
 			},
-			scripts : { 
+			scripts : {
 				files: [
 					'<%= dirs.app %>/frontend/js/**/*.js'
 				], tasks: [
 					'newer:jshint:all'
-				] 
+				]
 			},
-			styles: { 
+			styles: {
 				files: [
 					'<%= dirs.app %>/frontend/css/{,*/}*.css'
 				]
 			},
-			gruntfile: { 
+			gruntfile: {
 				files: [
 					'Gruntfile.js'
-				] 
+				]
 			},
-			html: { 
+			html: {
 				files: [
 					'<%= dirs.app %>/frontend/{,*/}*.html'
 				]
 			},
-			options: { 
-				livereload: true 
+			options: {
+				livereload: true
 			}
 		},
 
@@ -208,15 +209,15 @@ module.exports = function (grunt) {
 				files: [
 					{
 						expand: true,
-						cwd: '<%= dirs.app %>/backend', 
-						src: ['**/*.js'], 
-						dest: '<%= dirs.build %>/backend' 
+						cwd: '<%= dirs.app %>/backend',
+						src: ['**/*.js'],
+						dest: '<%= dirs.build %>/backend'
 					},
 					{
-						expand: true, 
-						cwd: '<%= dirs.app %>', 
-						src: ['server.js'], 
-						dest: '<%= dirs.build %>' 
+						expand: true,
+						cwd: '<%= dirs.app %>',
+						src: ['server.js'],
+						dest: '<%= dirs.build %>'
 					}
 				]
 			}
@@ -246,15 +247,15 @@ module.exports = function (grunt) {
 					collapseWhitespace: true,
 					conservativeCollapse: true,
 					collapseBooleanAttributes: true,
-					removeCommentsFromCDATA: true, 
+					removeCommentsFromCDATA: true,
 					removeOptionalTags: true
 				},
 				files: [
-					{ 
-						expand: true, 
-						cwd: '<%= dirs.build %>/frontend', 
-						src: ['*.html', 'views/{,*/}*.html'], 
-						dest: '<%= dirs.build %>/frontend' 
+					{
+						expand: true,
+						cwd: '<%= dirs.build %>/frontend',
+						src: ['*.html', 'views/{,*/}*.html'],
+						dest: '<%= dirs.build %>/frontend'
 					}
 				]
 			}
@@ -264,8 +265,8 @@ module.exports = function (grunt) {
 			build: {
 				files: [
 					{
-						expand: true, 
-						cwd: '<%= dirs.app %>/frontend/img', 
+						expand: true,
+						cwd: '<%= dirs.app %>/frontend/img',
 						src: '{,*/}*.{png,jpg,jpeg,gif}',
 						dest: '<%= dirs.build %>/frontend/img'
 					}
@@ -273,7 +274,7 @@ module.exports = function (grunt) {
 			}
 		},
 
-		
+
 		cssmin: {
 			css: {
 				files: [{
@@ -302,9 +303,9 @@ module.exports = function (grunt) {
 			build: {
 				files: [
 					{
-						expand: true, 
-						cwd: '<%= dirs.app %>/frontend/img', 
-						src: '{,*/}*.svg', 
+						expand: true,
+						cwd: '<%= dirs.app %>/frontend/img',
+						src: '{,*/}*.svg',
 						dest: '<%= dirs.build %>/frontend/img'
 					}
 				]
@@ -327,7 +328,7 @@ module.exports = function (grunt) {
 		'filerev',
 		'usemin',
 		'htmlmin',
-		'editJson'		
+		'editJson'
 	]);
 	grunt.registerTask('serve', function (target) {
 		if (target === 'production') {

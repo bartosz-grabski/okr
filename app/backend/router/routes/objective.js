@@ -12,7 +12,7 @@ module.exports = function (isLoggedIn) {
     var query = Model.find({});
 
 
-    query.where('userId',user.email);
+    query.where('userEmail',user.email);
     query.exec(function(err,data){
       if (err) {
         return res.status(500).send(err);
@@ -27,7 +27,14 @@ module.exports = function (isLoggedIn) {
   });
 
   router.post('/', isLoggedIn, function (req, res) {
-    
+    var m = new Model(req.body);
+    m.save(function(err) {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.status(201).end();
+      }
+    });
   });
 
   router.get('/:id', isLoggedIn, function (req, res) {

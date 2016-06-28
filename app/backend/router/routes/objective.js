@@ -8,7 +8,8 @@ var Model= mongoose.model('Objective');
 module.exports = function (isLoggedIn) {
 
   router.get('/', isLoggedIn, function (req, res) {
-    var user = req.user;
+
+    var user = { email: "admin@admin.pl" };
     var query = Model.find({});
 
 
@@ -50,20 +51,16 @@ module.exports = function (isLoggedIn) {
   });
 
   router.put('/:id', isLoggedIn, function (req, res) {
-    Model.findById(req.params.id, function (err, data) {
-      if (err) {
-        return res.status(500).send(err);
-      }
-      if (!data) {
-        return res.status(404).end();
-      }
-      Model.fillDoc(data, req.body, function (err) {
+    var id = req.params.id;
+    var objectiveToUpdate = req.body;
+    console.log(id,objectiveToUpdate,"asd");
+
+    Model.findOneAndUpdate({'_id':id},objectiveToUpdate, function(err) {
         if (err) {
-          return res.status(500).send(err);
+          return res.send(500,err);
         }
-        return res.status(200).send(data);
+        return res.status(200).send();
       });
-    });
   });
 
   router.delete('/:id', isLoggedIn, function (req, res) {

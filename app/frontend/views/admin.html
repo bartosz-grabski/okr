@@ -6,23 +6,31 @@
       <div ng-repeat="objective in objectives" class="panel panel-default">
         <!-- Default panel contents -->
         <div class="panel-heading">
-          <p>{{objective.name}}</p>
-          <p>Fulfillment</p>
+          <p>{{objective.name}} - {{objective.fulfillment}}%</p>
+          <p>Fulfillment - </p>
           <div class="progress">
-            <div class="progress-bar {{objective.class}} progress-bar-striped" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="style : {{objective.fulfillment}}%">
+            <div class="progress-bar {{objective.class}} progress-bar-striped" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width : {{objective.fulfillment}}%">
               <span class="sr-only">{{objective.fulfillment}}% Complete (success)</span>
             </div>
           </div>
           <button type="button" class="btn btn-success" ng-click="addKeyResult(objective)">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Key Result for the objective
           </button>
-          <button type="button" class="btn btn-danger" ng-click="delete(objective._id)">
+          <button type="button" class="btn btn-danger" ng-click="delete(objective)">
             <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Remove the objective
           </button>
         </div>
         <!-- List group -->
         <ul class="list-group">
-          <li ng-repeat="keyResult in objective.keyResults" class="list-group-item">Key Result 1</li>
+          <li ng-repeat="keyResult in objective.keyResults" class="list-group-item">
+            <span>
+              {{keyResult.name}} - <input type="number" name="myDecimal" placeholder="Decimal" ng-change="recalculate(objective)" min="0" max="1" ng-model="keyResult.fulfillment" step="0.01" />
+              <button type="button" class="btn btn-danger" ng-click="removeKeyResult(objective,keyResult)">
+                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Remove the key result
+              </button>
+            </span>
+
+          </li>
         </ul>
       </div>
     </div>

@@ -48,7 +48,7 @@ modelsDir.forEach(function (file) {
 /**
 * Configure strategies for Passport.
 *
-*/
+*
 strategiesDir.forEach(function (file) {
 	if (file.indexOf('.js') >-1) {
 		require('./lib/strategies/'+file)(app.get('env'), passport);
@@ -58,7 +58,7 @@ strategiesDir.forEach(function (file) {
 /**
 * Enable cookie middleware
 *
-*/
+*
 app.use(cookieParser(config[app.get('env')].cookieSecret, { httpOnly: true }));
 
 /**
@@ -71,7 +71,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /**
 * Enable session middleware
 *
-*/
+*
 app.use(session({
 	name: 'sessionID',
 	secret: config[app.get('env')].sessionSecret,
@@ -89,25 +89,25 @@ app.use(session({
 /**
 * Enable authentication strategies
 *
-*/
+*
 app.use(passport.initialize());
 
 /**
 * Enable session middleware from passport
 *
-*/
+*
 app.use(passport.session());
 
-/**
+
 * Enable flash middleware (used to send message from authentication strategies to route callbacks)
 *
-*/
+*
 app.use(flash());
 
-/**
+
 * Enable CSRF protection
 *
-*/
+*
 app.use(csrf());
 
 /**
@@ -116,7 +116,7 @@ app.use(csrf());
 *
 * More info here : http://stackoverflow.com/a/27426757/2904349
 *
-*/
+*
 app.use(function(req, res, next) {
 	res.cookie('XSRF-TOKEN', req.csrfToken());
   	next();
@@ -126,7 +126,7 @@ app.use(function(req, res, next) {
 * Set backend router to manage requests
 *
 */
-require('./router')(app, passport);
+require('./router')(app/*,passport*/);
 
 
 

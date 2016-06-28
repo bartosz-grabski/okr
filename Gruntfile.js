@@ -159,7 +159,7 @@ module.exports = function (grunt) {
 					'<%= dirs.app %>/config.js'
 				],
         tasks: [
-					'newer:jshint:all', 'express:app'
+					'express:app'
 				],
 				options: {
 					spawn: false,

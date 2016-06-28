@@ -11,11 +11,11 @@ var app = angular.module('okrs', [
 
 
 app.config(['$routeProvider', '$locationProvider', '$httpProvider',
-  
+
   function ($routeProvider, $locationProvider, $httpProvider) {
 
 
-    var isLoggedIn = function ($q, $timeout, $http, $rootScope, $location) {
+    /*var isLoggedIn = function ($q, $timeout, $http, $rootScope, $location) {
         var deferred = $q.defer();
         $http.get('/signedin').success(function (user) {
             if (user !== '0') {
@@ -30,12 +30,12 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
             }
         });
         return deferred.promise;
-    };
+    };*/
 
 
   $httpProvider.interceptors.push('InterceptorService');
 
-  
+
   $routeProvider
     .when('/', {
       templateUrl: 'views/main.html',
@@ -47,8 +47,8 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
     })
     .when('/admin', {
       templateUrl: 'views/admin.html',
-      controller: 'AdminCtrl',
-      resolve: {loggedin: isLoggedIn}
+      controller: 'AdminCtrl'
+      //resolve: {loggedin: isLoggedIn}
     })
     .when('/validate', {
       templateUrl: 'views/mail.html',
@@ -61,7 +61,7 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
     .otherwise({
       redirectTo: '/404'
     });
-  
+
 
   $locationProvider.html5Mode(true);
 

@@ -20,7 +20,8 @@ var authDir 		= fs.readdirSync(path.join(__dirname, './auth'));
 *
 */
 var isLoggedIn = function (req, res, next) {
-	if (!req.isAuthenticated()) {
+	return next();
+  if (!req.isAuthenticated()) {
 		res.sendStatus(401);
 	}
 	else {
@@ -42,12 +43,12 @@ var ExpressRouter = function (app, passport) {
 		}
 	});
 
-	authDir.forEach(function (filename) {
+	/*authDir.forEach(function (filename) {
 		if (filename.indexOf('.js') > -1) {
 			var authname = filename.substr(0, filename.length-3);
 			app.use('/', require('./auth/'+authname)(passport));
 		}
-	});
+	});*/
 
 };
 

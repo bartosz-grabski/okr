@@ -1,10 +1,10 @@
 {
-  "name": "node-express-mongoose",
-  "description": "A boilerplate application for express mongoose",
+  "name": "okr-spreadhseet-service",
+  "description": "Google Spreadsheet Service for OKR app",
   "version": "1.0.0",
   "author": {
-    "name": "Madhusudhan Srinivasa",
-    "email": "me@madhums.me"
+    "name": "Bartosz Grabski",
+    "email": "b.grabski92@gmail.com"
   },
   "engines": {
     "node": ">=6.x"

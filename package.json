@@ -1,0 +1,10 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "scripts": {
+    "start" : "cd okr-spreadsheet-service && npm start "
+  },
+  "dependencies": {
+    "okr-spreadsheet-service":"file:./okr-spreadsheet-service"
+  }
+}

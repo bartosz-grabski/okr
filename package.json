@@ -5,6 +5,6 @@
     "start" : "cd okr-spreadsheet-service && npm start "
   },
   "dependencies": {
-    "okr-spreadsheet-service":"file:./okr-spreadsheet-service"
+    "okr-spreadsheet-service":"./okr-spreadsheet-service"
   }
 }

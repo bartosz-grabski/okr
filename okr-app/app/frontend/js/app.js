@@ -15,54 +15,43 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
   function ($routeProvider, $locationProvider, $httpProvider) {
 
 
-    /*var isLoggedIn = function ($q, $timeout, $http, $rootScope, $location) {
-        var deferred = $q.defer();
-        $http.get('/signedin').success(function (user) {
-            if (user !== '0') {
-                $rootScope.isSignedIn = true;
-                $rootScope.currentUser = user;
-                $timeout(deferred.resolve, 0);
-            } else {
-                $rootScope.isSignedIn = false;
-                $rootScope.currentUser = {};
-                $timeout(function() { deferred.reject();}, 0);
-                $location.url('/');
-            }
-        });
-        return deferred.promise;
-    };*/
+    var isLoggedIn = function ($q, $timeout, $http, $rootScope, $window, $location) {
+
+      var deferred = $q.defer();
+
+      $http.get('/verify').then(
+        function (user) {
+          $rootScope.isSignedIn = true;
+          $rootScope.currentUser = user;
+          $timeout(deferred.resolve, 0);
+          $location.url('/okr');
+        },
+        function(err) {
+          $rootScope.isSignedIn = false;
+          $rootScope.currentUser = {};
+          $timeout(function() { deferred.reject();}, 0);
+          $window.location.href = '/auth/google';
+        }
+      );
+      return deferred.promise;
+    };
 
 
-  $httpProvider.interceptors.push('InterceptorService');
+    $httpProvider.interceptors.push('InterceptorService');
 
 
-  $routeProvider
-    .when('/', {
-      templateUrl: 'views/main.html',
-      controller: 'MainCtrl'
-    })
-    .when('/404', {
-      templateUrl: 'views/404.html',
-      controller: '404Ctrl'
-    })
-    .when('/admin', {
-      templateUrl: 'views/admin.html',
-      controller: 'AdminCtrl'
-      //resolve: {loggedin: isLoggedIn}
-    })
-    .when('/validate', {
-      templateUrl: 'views/mail.html',
-      controller: 'ValidateCtrl'
-    })
-    .when('/unvalidate', {
-      templateUrl: 'views/mail.html',
-      controller: 'ValidateCtrl'
-    })
-    .otherwise({
-      redirectTo: '/404'
-    });
+    $routeProvider
+      .when('/', {
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl'
+      })
+      .when('/okr', {
+        templateUrl: 'views/admin.html',
+        controller: 'AdminCtrl',
+        resolve: { loggedin: isLoggedIn }
+      });
 
 
-  $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true);
 
-}]);
+  }]);

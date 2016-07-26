@@ -9,46 +9,51 @@
 * Variables declaration
 *
 */
-var path            = require('path');
 var fs 				= require('fs');
-var routesDir		= fs.readdirSync(path.join(__dirname, './routes'));
-var authDir 		= fs.readdirSync(path.join(__dirname, './auth'));
 
-/**
-* Creation of isLoggedIn middleware, which tests if user is logged in
-* to permit request continuation.
-*
-*/
-var isLoggedIn = function (req, res, next) {
-	return next();
-  if (!req.isAuthenticated()) {
-		res.sendStatus(401);
-	}
-	else {
-		next();
-	}
-};
 
 /**
 * Express Router declaration
 *
 */
-var ExpressRouter = function (app, passport) {
+var ExpressRouter = function (app, passport, isLoggedIn, okrService) {
 
 
-	routesDir.forEach(function (filename) {
-		if (filename.indexOf('.js') >-1) {
-			var routename = filename.substr(0, filename.length-3);
-			app.use('/'+routename, require('./routes/'+routename)(isLoggedIn));
-		}
-	});
+  app.get('/auth/google',
+    passport.authenticate('google', {
+      scope: okrService.scopes
+    }));
 
-	/*authDir.forEach(function (filename) {
-		if (filename.indexOf('.js') > -1) {
-			var authname = filename.substr(0, filename.length-3);
-			app.use('/', require('./auth/'+authname)(passport));
-		}
-	});*/
+  app.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function(req, res) {
+      res.send(req.user);
+    });
+
+  app.get('/verify', function(req,res) {
+    if (req.isAuthenticated()) {
+      res.send(req.user);
+    } else {
+      res.sendStatus(403);
+    }
+  });
+
+  app.get('/okrs', isLoggedIn, function(req,res) {
+
+    var user = req.user;
+
+    console.log(user);
+
+    var callback = function(err, result) {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send(result);
+      }
+    };
+
+    okrService.getOkrs(user.accessToken, callback);
+  });
 
 };
 

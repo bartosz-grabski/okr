@@ -1,4 +1,13 @@
 {
+  "appsScript" : {
+    "scopes" : [
+      "https://www.googleapis.com/auth/spreadsheets",
+      "https://www.googleapis.com/auth/userinfo.email"
+    ],
+    "scriptId" : "1NCMLaOkpxikj2vmJ97N9gkpNskokhdMtKDruVBN2_aC-Bp01V_aaVbaZ",
+    "version" : "v1"
+  },
+
 	"development": {
 
 		"host": "localhost",

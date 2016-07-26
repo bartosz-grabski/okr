@@ -2,9 +2,10 @@
   "name": "application-name",
   "version": "0.0.1",
   "scripts": {
-    "start" : "cd okr-spreadsheet-service && npm start "
+    "start": "cd okr-spreadsheet-service && npm start "
   },
   "dependencies": {
-    "okr-spreadsheet-service":"./okr-spreadsheet-service"
+    "okr-spreadsheet-service": "./okr-spreadsheet-service",
+    "passport-google-oauth": "^1.0.0"
   }
 }

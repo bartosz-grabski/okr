@@ -20,7 +20,6 @@ var path            = require('path');
 var fs 				= require('fs');
 var config 			= JSON.parse(fs.readFileSync(path.join(__dirname, '../config.json'), 'utf8'));
 var strategiesDir 	= fs.readdirSync(path.join(__dirname, './lib/strategies'));
-var db = require('./lib/db');
 var okrService    = require('./lib/okr-service')(config);
 
 /**
@@ -36,7 +35,7 @@ app.set('env', app.get('env') || 'production');
 
 strategiesDir.forEach(function (file) {
 	if (file.indexOf('.js') >-1) {
-		require('./lib/strategies/'+file)(app.get('env'), passport, db);
+		require('./lib/strategies/'+file)(app.get('env'), passport, config);
 	}
 });
 
@@ -45,7 +44,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(session({
-	name: 'sessionID',
+	name: 'session',
 	secret: config[app.get('env')].sessionSecret,
 	cookie: {
 		path: '/',
@@ -68,7 +67,7 @@ var isLoggedIn = function (req, res, next) {
       res.send(403);
     }
     else {
-      next();
+      next()
     }
 };
 

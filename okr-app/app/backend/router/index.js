@@ -25,17 +25,32 @@ var ExpressRouter = function (app, passport, isLoggedIn, okrService) {
     }));
 
   app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/login' }),
+    passport.authenticate('google', {
+      failureRedirect: '/login'
+    }),
     function(req, res) {
-      res.send(req.user);
+      res.redirect("/");
     });
 
   app.get('/verify', function(req,res) {
     if (req.isAuthenticated()) {
-      res.send(req.user);
+
+      var userInfo = {
+        name : req.user.displayName,
+        email : req.user.email
+      };
+
+      res.send(userInfo);
     } else {
       res.sendStatus(403);
     }
+  });
+
+  app.get('/logout', function(req,res) {
+    if (req.isAuthenticated()) {
+      req.session.destroy();
+    }
+    res.sendStatus(200);
   });
 
   app.get('/okrs', isLoggedIn, function(req,res) {

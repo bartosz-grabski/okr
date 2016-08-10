@@ -15,27 +15,28 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
   function ($routeProvider, $locationProvider, $httpProvider) {
 
 
-    var isLoggedIn = function ($q, $timeout, $http, $rootScope, $window, $location) {
+
+    var verifyLogin = function ($q, $http, $timeout, $location, authService) {
 
       var deferred = $q.defer();
 
+
+
       $http.get('/verify').then(
-        function (user) {
-          $rootScope.isSignedIn = true;
-          $rootScope.currentUser = user;
+        function (response) {
+          authService.setUserInfo(response.data);
           $timeout(deferred.resolve, 0);
-          $location.url('/okr');
+          $location.path('/okr');
         },
         function(err) {
-          $rootScope.isSignedIn = false;
-          $rootScope.currentUser = {};
-          $timeout(function() { deferred.reject();}, 0);
-          $window.location.href = '/auth/google';
+          authService.setUserInfo(null);
+          $timeout(deferred.reject, 0);
+          $location.path('/');
         }
       );
-      return deferred.promise;
-    };
 
+      return deferred;
+    };
 
     $httpProvider.interceptors.push('InterceptorService');
 
@@ -43,12 +44,13 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        resolve: { loggedin: verifyLogin }
       })
       .when('/okr', {
         templateUrl: 'views/admin.html',
         controller: 'AdminCtrl',
-        resolve: { loggedin: isLoggedIn }
+        resolve: { loggedin: verifyLogin }
       });
 
 

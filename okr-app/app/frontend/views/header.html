@@ -19,13 +19,8 @@
                 </div><!--//navbar-header-->
                 <div class="navbar-collapse collapse" id="navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li ng-show="isSignedIn" class="nav-item"><a class="scrollto" href="/admin">Admin</a></li>
-                        <li ng-show="isSignedIn" class="nav-item"><a class="scrollto" href="#" ng-click="signout()" >Signout</a></li>
-                        <li ng-hide="isSignedIn" class="nav-item"><a class="scrollto" href="#" ng-click="signinModal()" >Sign In</a></li>
-                        <li ng-hide="isSignedIn" class="nav-item"><a class="scrollto" href="#" ng-click="signupModal()" >Sign Up</a></li>
-                        <li class="nav-item last">
-                            <a class="scrollto" href="https://github.com/jbltx/generator-mean-stack" target="_blank">Docs</a>
-                        </li>
+                        <li ng-hide="auth.isSignedIn()" class="nav-item"><a class="scrollto" href="#" ng-click="auth.login('google')" >Sign in with Google</a></li>
+                        <li ng-show="auth.isSignedIn()" class="nav-item "><a class="scrollto" href="#" ng-click="auth.logout()">Log out</a></li>
                     </ul><!--//nav-->
                 </div><!--//navabr-collapse-->
             </nav><!--//main-nav-->

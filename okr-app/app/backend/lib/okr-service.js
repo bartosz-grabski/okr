@@ -14,9 +14,9 @@ module.exports = function(config) {
   var auth = new googleAuth();
 
   var oauth2Client = new auth.OAuth2(
-    "1065784269880-bh19km3ms01ldplp7gisst8hgc5drfov.apps.googleusercontent.com",
-    "VxUgs--ownKIYbNyqfYaoyp9",
-    "http://127.0.0.1:8080/auth/google/callback"
+    config.auth.google.clientID,
+    config.auth.google.clientSecret,
+    config.auth.google.callbackURL
   );
 
 
@@ -39,14 +39,18 @@ module.exports = function(config) {
       var auth = oauth2Client;
       auth.credentials = { access_token :  accessToken};
 
-      console.log(auth);
+      console.log('dupa');
+      console.log(config.appsScript);
+      console.log(accessToken);
+
 
       script.scripts.run({
         auth: auth,
         resource: {
           function : 'getOKRs'
         },
-        scriptId: config.appsScript.scriptId
+        scriptId: config.appsScript.scriptId,
+        devMode: true
       }, getOkrsCallback)
     },
 

@@ -1,0 +1,19 @@
+<!-- ******PROMO****** -->
+    <section id="promo" class="promo section offset-header">
+        <div ng-hide="auth.isSignedIn" class="container text-center">
+            <img src="/img/meanstack.svg" height="500">
+            <p class="intro">Welcome to OKR App</p>
+
+            <ul class="meta list-inline">
+                <li><a href="#" ng-click="auth.login('google')">Sign In with Google</a></li>
+            </ul><!--//meta-->
+        </div><!--//container-->
+        <div ng-show="auth.isSignedIn" class="container text-center">
+          <a href="/okr"><img src="/img/meanstack.svg" height="500"></a>
+            <p class="intro">Go to your OKRs</p>
+
+          <ul class="meta list-inline">
+            <li><a href="#" ng-click="auth.login('google')">Sign In with Google</a></li>
+          </ul><!--//meta-->
+        </div><!--//container-->
+    </section><!--//promo-->
